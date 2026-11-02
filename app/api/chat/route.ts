@@ -9,14 +9,13 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    // We updated the prompt so the AI knows it can use the internet
     const systemPrompt = {
       role: "system",
       content: "You are a helpful and encouraging WASSCE tutor for West African students. Explain concepts simply, step-by-step. You have live web search enabled, so use it to answer questions about current events, news, or real-time data accurately. If a student asks a question outside of academics, politely steer them back to their studies."
     };
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-search-preview", // This model searches the web automatically
+      model: "gpt-5-search-api", // Updated to the supported search model
       messages: [systemPrompt, ...messages],
     });
 
