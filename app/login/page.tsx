@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // <-- Make sure this is here
+import Link from "next/link"; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -35,7 +35,10 @@ export default function LoginPage() {
       setErrorMsg(error.message);
       setLoading(false);
     } else {
-      router.push("/practice");
+      // FIXED: Check if there is a redirect path in the URL, otherwise go to practice
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectPath = urlParams.get('redirect') || '/practice';
+      router.push(redirectPath);
     }
   };
 
@@ -49,7 +52,7 @@ export default function LoginPage() {
     setSuccessMsg("");
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:3000/login',
+      redirectTo: 'https://wassce-prep-ashen.vercel.app/login',
     });
 
     setLoading(false);
@@ -62,10 +65,8 @@ export default function LoginPage() {
   };
 
   return (
-    // 1. The main background container
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-6 text-slate-800">
       
-      {/* 2. THIS IS THE NEW HEADER WE ADDED */}
       <div className="w-full max-w-md mb-6 flex justify-between items-center">
         <Link href="/" className="font-bold text-2xl text-blue-700 hover:text-blue-800 transition-colors">
           WASSCE Prep 🎓
@@ -75,7 +76,6 @@ export default function LoginPage() {
         </Link>
       </div>
 
-      {/* 3. The white login box */}
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
         
         <h1 className="text-2xl font-bold mb-6 text-center">
