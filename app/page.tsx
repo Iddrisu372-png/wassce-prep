@@ -208,7 +208,7 @@ export default function HomePage() {
             </p>
 
             <div className="nexa-fade-up nexa-delay-3 mt-9 flex flex-wrap gap-4">
-              <Link href={learningHref} className="rounded-2xl bg-white px-7 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
+              <Link href={signedIn ? "/practice" : "/login"} className="rounded-2xl bg-white px-7 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
                 {authReady && signedIn ? "Continue learning →" : "Start learning free →"}
               </Link>
               <a href="#features" className="rounded-2xl border border-white/30 bg-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/20">
