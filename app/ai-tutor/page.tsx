@@ -151,7 +151,7 @@ export default function AITutorPage() {
           <form onSubmit={(event) => { event.preventDefault(); void sendMessage(input); }} className="mx-auto max-w-3xl">
             {error && <p role="alert" className="mb-3 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700">{error} <button type="button" className="ml-2 font-bold underline" onClick={() => { setInput(messages[messages.length - 1]?.role === "user" ? messages[messages.length - 1].content : input); setError(""); }}>Retry</button></p>}
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#f8faff] p-2 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-100">
-              <input aria-label="Ask your AI Tutor" value={input} maxLength={2000} onChange={(event) => setInput(event.target.value)} disabled={loading} placeholder="Ask about a subject or question..." className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm outline-none placeholder:text-slate-400" />
+              <input aria-label="Ask your AI Tutor" value={input} maxLength={2000} onChange={(event) => setInput(event.target.value)} disabled={loading} placeholder="Ask about a subject or question..." className="min-w-0 flex-1 bg-transparent px-3 py-3 text-base outline-none placeholder:text-slate-400" />
               <button type="submit" disabled={loading || !input.trim()} className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">Send ↗</button>
             </div>
             <p className="mt-2 text-center text-[11px] text-slate-400">AI can make mistakes. Verify important answers with your teacher or textbook.</p>
