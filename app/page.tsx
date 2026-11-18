@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
 
 const features = [
   {
@@ -66,6 +67,35 @@ function Logo() {
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+
+  // NEXATECH_AUTH_NAV_FIXED
+  useEffect(() => {
+    let mounted = true;
+
+    const { data: { subscription } } =
+      supabase.auth.onAuthStateChange((_event, session) => {
+        if (!mounted) return;
+        setSignedIn(Boolean(session));
+        setAuthReady(true);
+      });
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      setSignedIn(Boolean(data.session));
+      setAuthReady(true);
+    }).catch(() => {
+      if (mounted) setAuthReady(true);
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const learningHref = signedIn ? "/dashboard" : "/login";
   const [activePreview, setActivePreview] = useState("Practice");
 
   // NEXATECH_PHASE2_INSTALLED
@@ -107,12 +137,18 @@ export default function HomePage() {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <Link href="/login" className="rounded-xl px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100">
-              Log in
-            </Link>
-            <Link href="/login" className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
-              Get started →
-            </Link>
+            {authReady && (
+              <>
+                {!signedIn && (
+                  <Link href="/login" className="rounded-xl px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100">
+                    Log in
+                  </Link>
+                )}
+                <Link href={learningHref} className="rounded-xl bg-blue-600 px-6 py-3 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700">
+                  {signedIn ? "Dashboard →" : "Get started →"}
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -131,7 +167,18 @@ export default function HomePage() {
             <a href="#features" onClick={() => setMenuOpen(false)} className="rounded-xl px-3 py-3 hover:bg-blue-50">Features</a>
             <a href="#subjects" onClick={() => setMenuOpen(false)} className="rounded-xl px-3 py-3 hover:bg-blue-50">Subjects</a>
             <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="rounded-xl px-3 py-3 hover:bg-blue-50">How it works</a>
-            <Link href="/login" className="rounded-xl bg-blue-600 px-4 py-4 text-center text-white">Get started →</Link>
+            {authReady && (
+              <>
+                {!signedIn && (
+                  <Link href="/login" className="rounded-xl px-3 py-3 hover:bg-blue-50">
+                    Log in
+                  </Link>
+                )}
+                <Link href={learningHref} className="rounded-xl bg-blue-600 px-4 py-4 text-center text-white">
+                  {signedIn ? "Dashboard →" : "Get started →"}
+                </Link>
+              </>
+            )}
           </nav>
         )}
       </header>
@@ -161,8 +208,8 @@ export default function HomePage() {
             </p>
 
             <div className="nexa-fade-up nexa-delay-3 mt-9 flex flex-wrap gap-4">
-              <Link href="/login" className="rounded-2xl bg-white px-7 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
-                Start learning free →
+              <Link href={learningHref} className="rounded-2xl bg-white px-7 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
+                {authReady && signedIn ? "Continue learning →" : "Start learning free →"}
               </Link>
               <a href="#features" className="rounded-2xl border border-white/30 bg-white/10 px-7 py-4 text-sm font-bold text-white transition hover:bg-white/20">
                 Explore features
@@ -290,7 +337,7 @@ export default function HomePage() {
                 Explore the subjects available in our current learning experience. More learning paths can be added as NexaTech grows.
               </p>
             </div>
-            <Link href="/login" className="w-fit rounded-xl bg-blue-600 px-6 py-4 text-sm font-black text-white">
+            <Link href={signedIn ? "/practice" : "/login"} className="w-fit rounded-xl bg-blue-600 px-6 py-4 text-sm font-black text-white">
               Start practicing →
             </Link>
           </div>
@@ -347,8 +394,8 @@ export default function HomePage() {
             <p className="mx-auto mt-6 max-w-xl leading-8 text-blue-100">
               Wherever you are, keep learning, keep practicing and move closer to your goals.
             </p>
-            <Link href="/login" className="mt-9 inline-block rounded-2xl bg-white px-9 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
-              Get started with NexaTech →
+            <Link href={learningHref} className="mt-9 inline-block rounded-2xl bg-white px-9 py-4 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-1">
+              {authReady && signedIn ? "Go to your dashboard →" : "Get started with NexaTech →"}
             </Link>
           </div>
         </div>
@@ -364,7 +411,11 @@ export default function HomePage() {
             <a href="#features" className="hover:text-blue-600">Features</a>
             <a href="#subjects" className="hover:text-blue-600">Subjects</a>
             <Link href="/privacy" className="hover:text-blue-600">Privacy</Link>
-            <Link href="/login" className="hover:text-blue-600">Student login</Link>
+            {authReady && (
+              <Link href={learningHref} className="hover:text-blue-600">
+                {signedIn ? "Dashboard" : "Student login"}
+              </Link>
+            )}
           </div>
         </div>
         <div className="mx-auto mt-10 max-w-7xl border-t border-slate-100 pt-7 text-center text-xs text-slate-400">
