@@ -76,7 +76,7 @@ export default function AITutorPage() {
   if (checkingAuth) return <div className="flex min-h-screen items-center justify-center bg-[#f5f7fc] font-semibold text-slate-600">Preparing your AI Tutor...</div>;
 
   return (
-    <div className="flex h-dvh min-h-0 bg-[#f5f7fc] text-slate-900 overflow-hidden">
+    <div className="flex h-[100svh] min-h-0 bg-[#f5f7fc] text-slate-900 overflow-hidden">
       <aside className="hidden w-64 shrink-0 flex-col bg-[#101b38] px-5 py-7 text-white lg:flex">
         <Link href="/dashboard" className="flex items-center gap-3 px-2 text-xl font-extrabold tracking-tight">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500">N</span>NexaTech
