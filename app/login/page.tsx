@@ -37,7 +37,9 @@ export default function LoginPage() {
     } else {
       // FIXED: Check if there is a redirect path in the URL, otherwise go to practice
       const urlParams = new URLSearchParams(window.location.search);
-      const redirectPath = urlParams.get('redirect') || '/practice';
+      const requested = urlParams.get('redirect') || '/practice';
+      const allowed = ['/practice', '/dashboard', '/ai-tutor', '/leaderboard', '/progress', '/profile'];
+      const redirectPath = allowed.includes(requested) ? requested : '/practice';
       router.push(redirectPath);
     }
   };

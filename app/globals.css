@@ -24,3 +24,148 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* NexaTech Premium Home Animations */
+@keyframes nexaFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nexaPreviewEnter {
+  from {
+    opacity: 0;
+    transform: translateX(45px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes nexaMenuSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nexa-fade-up {
+  animation: nexaFadeUp 0.75s ease-out both;
+}
+
+.nexa-delay-1 { animation-delay: 0.12s; }
+.nexa-delay-2 { animation-delay: 0.24s; }
+.nexa-delay-3 { animation-delay: 0.36s; }
+.nexa-delay-4 { animation-delay: 0.48s; }
+
+.nexa-preview-enter {
+  animation: nexaPreviewEnter 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.2s;
+}
+
+.nexa-mobile-menu {
+  transform-origin: top;
+  animation: nexaMenuSlide 0.3s ease-out both;
+}
+
+.nexa-preview-card {
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+}
+
+@media (hover: hover) {
+  .nexa-preview-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 30px 65px rgba(8, 23, 61, 0.22);
+  }
+
+  .nexa-feature-card:hover {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexa-fade-up,
+  .nexa-preview-enter,
+  .nexa-mobile-menu {
+    animation: none !important;
+  }
+
+  .nexa-preview-card,
+  .nexa-feature-card {
+    transition: none !important;
+  }
+}
+
+
+/* NexaTech Phase 2 — scroll reveal */
+.nexa-scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nexa-scroll-reveal.nexa-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexa-scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* NexaTech Phase 3 — scoped premium finish; other pages unaffected */
+.nexa-phase3 { -webkit-font-smoothing: antialiased; }
+.nexa-phase3 a, .nexa-phase3 button { -webkit-tap-highlight-color: transparent; }
+.nexa-phase3 a:focus-visible, .nexa-phase3 button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 4px;
+}
+.nexa-phase3-preview {
+  box-shadow: 0 25px 75px rgba(5, 16, 47, .24), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.nexa-phase3-choice {
+  position: relative;
+  will-change: auto;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, border-color .28s ease;
+}
+.nexa-phase3-choice[aria-pressed="true"] {
+  box-shadow: 0 9px 24px rgba(37,99,235,.14), inset 0 0 0 1px rgba(59,130,246,.12);
+}
+.nexa-phase3-feature, .nexa-phase3-subject, .nexa-phase3-step {
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease;
+}
+.nexa-phase3-feature, .nexa-phase3-step { box-shadow: 0 8px 30px rgba(20,40,88,.045); }
+@media (hover: hover) and (pointer: fine) {
+  .nexa-phase3-choice:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(24,58,130,.13); }
+  .nexa-phase3-subject:hover, .nexa-phase3-step:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(25,55,115,.10); }
+  .nexa-phase3 a[href="/login"]:hover { filter: brightness(1.035); }
+}
+@media (max-width: 639px) {
+  .nexa-phase3-choice { padding: 1rem; }
+  .nexa-phase3-preview { border-radius: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nexa-phase3 *, .nexa-phase3 *::before, .nexa-phase3 *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
