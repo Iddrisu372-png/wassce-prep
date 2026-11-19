@@ -1,6 +1,7 @@
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,21 +15,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WASSCE Prep | Ace Your Exams",
-  description: "Practice real past questions and learn with an AI Tutor.",
-
+  title: "NexaTech | Learn Smarter. Achieve More.",
+  description:
+    "Prepare for Ghana WASSCE exams with practice questions, AI tutoring, and progress tracking.",
   verification: {
     google: "ooI7kr7Znii8JP_mNOTWba5FYYMbiaTN_VqvJt64Lp0",
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
