@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,6 +16,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WASSCE Prep | Ace Your Exams",
   description: "Practice real past questions and learn with an AI Tutor.",
+
+  verification: {
+    google: "ooI7kr7Znii8JP_mNOTWba5FYYMbiaTN_VqvJt64Lp0",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
